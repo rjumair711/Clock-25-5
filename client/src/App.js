@@ -1,5 +1,6 @@
 import './App.css';
 import  {useState, useEffect} from 'react';
+import { useCallback } from 'react';
   
     
  const App = () => {
@@ -67,17 +68,19 @@ import  {useState, useEffect} from 'react';
   }
  }
  
- const clock = () => {
- if(play) {
-   resetTimer();
- } else {
-   clearTimeout(timeout);
-  } 
- }
- 
- useEffect(() => {
+
+const clock = useCallback(() => {
+  if (play) {
+    resetTimer();
+  } else {
+    clearTimeout(timeout);
+  }
+}, [play, timeout, resetTimer]);
+
+
+useEffect(() => {
   clock();
- }, [play, timeLeft, timeout]);
+}, [clock]);
  
   const timeFormatter = () => {
     const minutes = Math.floor(timeLeft / 60);
